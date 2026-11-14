@@ -59,8 +59,8 @@ def richtung():
     x_wert = joystick_x.read_u16() - MITTE
     y_wert = joystick_y.read_u16() - MITTE
 
-    links = x_wert < -DEADZONE
-    rechts = x_wert > DEADZONE
+    links = x_wert > DEADZONE
+    rechts = x_wert < -DEADZONE
     oben = y_wert < -DEADZONE
     unten = y_wert > DEADZONE
 
