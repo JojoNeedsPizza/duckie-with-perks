@@ -123,8 +123,20 @@ try:
         if aktuelle_richtung == "oben":
             motor1_bewegen(100)
             motor2_bewegen(100)
+        elif aktuelle_richtung == "oben-rechts":
+            motor1_bewegen(100)
+            motor2_bewegen(40)
+        elif aktuelle_richtung == "oben-links":
+            motor1_bewegen(40)
+            motor2_bewegen(100)
         elif aktuelle_richtung == "unten":
             motor1_bewegen(-100)
+            motor2_bewegen(-100)
+        elif aktuelle_richtung == "unten-rechts":
+            motor1_bewegen(-100)
+            motor2_bewegen(-40)
+        elif aktuelle_richtung == "unten-links":
+            motor1_bewegen(-40)
             motor2_bewegen(-100)
         elif aktuelle_richtung == "links":
             motor1_bewegen(-100)
