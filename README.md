@@ -36,7 +36,8 @@ joystick and packed with custom duck-themed features:
 | **Our contribution** | A duck-mobile that drives, quacks on an LCD, plays “Alle meine Entchen”, and boots with style. |
 | **Result** | Duckie with Perks |
 
-_📸 Project photo coming soon._
+<img width="3072" height="4096" alt="IMG_20261115_155215689" src="https://github.com/user-attachments/assets/a34d4aa5-d119-4b7d-b2b8-1781d18aa635" />
+
 
 ## Hardware
 
