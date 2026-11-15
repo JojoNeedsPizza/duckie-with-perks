@@ -1,0 +1,19 @@
+---M1---
+A: Pin 8
+B: Pin 9
+
+---M2---
+A: Pin 10
+B: Pin 11
+
+---Buzzer---
+A: Pin 12
+
+---Joystick---
+{Grove 6}
+x: Pin 26
+y: Pin 27
+
+---LCD Display---
+i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100000)
+lcd = I2cLcd(i2c, 0x3E, 2, 16)
