@@ -1,14 +1,12 @@
 # Duckie with Perks
 
+> **A tiny ride. A giant quack. Zero boring duckies.**
 
+**Built with:** `MicroPython` · `Maker Pi RP2040` · `Joystick` · `LCD` · `Buzzer`
 
-
-**Written in** 
-
-
-
-A small remote-controlled vehicle based on the **Maker Pi RP2040**. Duckie is
-controlled with an analog joystick and has additional perks:
+Duckie with Perks is a remote-controlled duck-mobile with differential drive,
+personality, and just the right amount of chaos. It is controlled by an analog
+joystick and packed with custom duck-themed features:
 
 - Differential drive with two motors
 - Joystick control, including diagonal directions
@@ -17,23 +15,24 @@ controlled with an analog joystick and has additional perks:
 - Button-triggered melody playback
 - Smooth acceleration and a safety stop
 
-## Infos about the Hackathon where it got created
+```text
+             __
+         ___( o)>   QUACK MODE: ON
+         \ <_. )
+          `---'
+```
 
-> **ZeFIx 2026**
+## Hackathon: ZeFIx 2026
 
-**Name:**  ZeFIx 2026
+| | |
+|---|---|
+| **Date** | 13–15 November 2026 |
+| **Team** | Benjamin, Grantly Marshall, Arsenji, Rik and Johannes Faizade |
+| **Challenge** | Classic duckies are boring. Give them features. |
+| **Our contribution** | A duck-mobile that drives, quacks on an LCD, plays “Alle meine Entchen”, and boots with style. |
+| **Result** | Duckie with Perks |
 
-**Date:**  13.11.2026 - 15.11.2026
-
-**Team:**  Benjamin, Grantly Marshall, Arsenji, Rik and Johannes Faizade
-
-**Challenge:**  Classic Duckies are boooring, we gotta give them sum features
-
-**Our contribution:**  A car for bathing ducks, that can drive, say quack on an display and play the german song "Alle meine Entchen" when a button is pressed. It also has a startup sound and smooth acceleration.
-
-**Result / placement:**  Duckie with Perks :).
-
--- Imma add the Image on github later --
+_📸 Project photo coming soon._
 
 ## Hardware
 
@@ -44,8 +43,8 @@ controlled with an analog joystick and has additional perks:
 - Push button
 - 1 AAA battery slot and 2 AA battery slots
 
-Do not power the motors from the RP2040's 3.3 V output. The motor power
-supply and the board must share a common ground (`GND`).
+> ⚡ **Power note:** Never power the motors from the RP2040's 3.3 V output.
+> The motor supply and the board must share a common ground (`GND`).
 
 ## Pinout
 
@@ -62,7 +61,7 @@ supply and the board must share a common ground (`GND`).
 | LCD I²C address | `0x3E` |
 
 Connect the button between `GP17` and `GND`. The internal pull-up makes the
-input `LOW` when the button is pressed.
+input `LOW` when pressed.
 
 ## Files
 
@@ -99,13 +98,13 @@ ls /dev/cu.usb*
 Keep the joystick still when starting the program. It automatically calibrates
 the center position.
 
-| Joystick direction | Behavior |
+| Joystick direction | Duckie response |
 |---|---|
 | Up | Forward |
 | Down | Reverse |
 | Left / right | Turn |
 | Diagonal | Curve |
-| Center position | Stop |
+| Center | Stop |
 
 Pressing the button on `GP17` starts the melody. The melody plays while motor
 control continues.
@@ -121,10 +120,12 @@ control continues.
 - If `mpremote` reports that the port is busy, close the serial console in
   PyCharm or another program.
 
-## Lizenz
+## License
 
-> **MIT License, Made with Luv and Ducks by: Rik, Arsenji, Benjamin, Grantly Marshall and Johannes Faizade**
+> MIT License. Made with love and ducks by Rik, Arsenji, Benjamin, Grantly
+> Marshall and Johannes Faizade.
 
 **Greetings from Bavaria, Germany!**
 
- *Thanks to the ZeFix team, all the nice mentors and especially our mentor Timo*
+_Thanks to the ZeFIx team, all the lovely mentors, and especially our mentor
+Timo._
