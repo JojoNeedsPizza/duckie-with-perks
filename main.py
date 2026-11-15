@@ -16,6 +16,7 @@ for pwm in (m1a, m1b, m2a, m2b):
 # Joystick an Grove 6
 joystick_x = ADC(26)
 joystick_y = ADC(27)
+quack_button = Pin(17, Pin.IN, Pin.PULL_UP)
 
 # LCD JHD1803M1: SDA = GP4, SCL = GP5, Adresse = 0x3E
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100000)
@@ -156,6 +157,23 @@ def startup_sound():
     ton(180, 300, 22000)
 
 
+def alle_meine_entchen():
+    """Spielt die gemeinfreie Melodie über den Buzzer ab."""
+    stoppen()
+    melodie = (
+        (262, 300), (294, 300), (330, 300), (349, 300),
+        (392, 600), (392, 600),
+        (440, 300), (440, 300), (440, 600),
+        (392, 600), (349, 300), (349, 300),
+        (349, 600), (330, 600),
+        (294, 300), (294, 300), (294, 600),
+        (262, 900),
+    )
+
+    for frequenz, dauer in melodie:
+        ton(frequenz, dauer, 18000)
+
+
 def lcd_zeile(text):
     lcd.putstr(text[:16].center(16))
 
@@ -266,7 +284,14 @@ lcd_zeile("QUAK QUAK!")
 time.sleep_ms(800)
 
 try:
+    button_was_pressed = False
+
     while True:
+        button_pressed = quack_button.value() == 0
+        if button_pressed and not button_was_pressed:
+            alle_meine_entchen()
+        button_was_pressed = button_pressed
+
         aktuelle_richtung = richtung()
         fahre(aktuelle_richtung)
         lcd_animation(aktuelle_richtung)
