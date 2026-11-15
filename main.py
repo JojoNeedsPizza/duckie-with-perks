@@ -23,7 +23,7 @@ lcd = I2cLcd(i2c, 0x3E, 2, 16)
 
 MITTE = 32768
 DEADZONE = 9000
-MAX_SPEED = 70
+MAX_SPEED = 100
 current_motor1 = 0
 current_motor2 = 0
 letzte_richtung = ""
