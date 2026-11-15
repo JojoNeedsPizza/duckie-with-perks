@@ -1,5 +1,6 @@
-from machine import ADC, Pin, PWM
+from machine import ADC, I2C, Pin, PWM
 import time
+from i2c_lcd import I2cLcd
 
 # Motoren
 m1a = PWM(Pin(8))
@@ -16,12 +17,31 @@ for pwm in (m1a, m1b, m2a, m2b):
 joystick_x = ADC(26)
 joystick_y = ADC(27)
 
+# LCD JHD1803M1: SDA = GP4, SCL = GP5, Adresse = 0x3E
+i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100000)
+lcd = I2cLcd(i2c, 0x3E, 2, 16)
+
 MITTE = 32768
 DEADZONE = 7000
 MAX_SPEED = 45
 current_motor1 = 0
 current_motor2 = 0
 letzte_richtung = ""
+letzte_lcd_aktualisierung = 0
+spruch_index = 0
+animations_frame = 0
+
+SPRUECHE = (
+    ("QUAK ATTACK!", "Duck mode: ON"),
+    ("Quack happens.", "Stay fluffy."),
+    ("Waddle I do?", "I drive!"),
+    ("Egg-cellent!", "Mission started"),
+    ("Feather power!", "Maximum quack"),
+    ("Duck.exe", "is running"),
+    ("Quack to the", "future!"),
+    ("Flap engaged", "Hold on!"),
+    ("Pond patrol", "reporting in"),
+)
 
 MITTE = 32768
 DEADZONE = 7000
@@ -138,6 +158,57 @@ def startup_sound():
     ton(180, 300, 22000)
 
 
+def lcd_zeile(text):
+    lcd.putstr(text[:16].center(16))
+
+
+def startup_animation():
+    for oben, unten in (
+        ("      .--.", "     (o  o)"),
+        ("     .--.  ", "    (o  o) "),
+        ("    .--.   ", "   (o  o)  "),
+        ("   .--.    ", "  (o  o)   "),
+    ):
+        lcd.clear()
+        lcd_zeile(oben)
+        lcd_zeile(unten)
+        time.sleep_ms(180)
+
+    for schritt in range(0, 17, 4):
+        lcd.clear()
+        lcd_zeile("DUCKIE BOOTING")
+        lcd.move_to(0, 1)
+        lcd.putstr(("=" * schritt + ">" + "." * 15)[:16])
+        time.sleep_ms(120)
+
+
+def lcd_animation(aktuelle_richtung):
+    global letzte_lcd_aktualisierung, spruch_index, animations_frame
+
+    jetzt = time.ticks_ms()
+    if time.ticks_diff(jetzt, letzte_lcd_aktualisierung) < 500:
+        return
+
+    letzte_lcd_aktualisierung = jetzt
+    animations_frame = (animations_frame + 1) % 4
+    spruch_oben, spruch_unten = SPRUECHE[spruch_index]
+    lcd.clear()
+
+    if animations_frame == 0:
+        lcd_zeile("  (^ ^)  QUAK")
+        lcd_zeile(aktuelle_richtung)
+    elif animations_frame == 1:
+        lcd_zeile("  (o o)  QUAK")
+        lcd_zeile(spruch_oben)
+    elif animations_frame == 2:
+        lcd_zeile("  (- -)  QUAK")
+        lcd_zeile(spruch_unten)
+    else:
+        lcd_zeile("  (o o)  QUAK")
+        lcd_zeile(aktuelle_richtung)
+        spruch_index = (spruch_index + 1) % len(SPRUECHE)
+
+
 def richtung():
     x_wert = joystick_x.read_u16() - MITTE
     y_wert = joystick_y.read_u16() - MITTE
@@ -190,11 +261,17 @@ def fahre(aktuelle_richtung):
 
 print("Duckie bereit!")
 startup_sound()
+startup_animation()
+lcd.clear()
+lcd_zeile("DUCKIE ONLINE")
+lcd_zeile("QUAK QUAK!")
+time.sleep_ms(800)
 
 try:
     while True:
         aktuelle_richtung = richtung()
         fahre(aktuelle_richtung)
+        lcd_animation(aktuelle_richtung)
 
         if aktuelle_richtung != letzte_richtung:
             print("Richtung:", aktuelle_richtung)
