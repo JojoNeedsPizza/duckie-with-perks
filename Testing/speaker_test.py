@@ -22,4 +22,4 @@ def play_wav(filename):
                 time.sleep_us(40)  # Timing für 16 kHz Abtastrate
     buzzer.duty_u16(0)
 
-play_wav("sound.wav")
+play_wav("../Sounds/sound.wav")
