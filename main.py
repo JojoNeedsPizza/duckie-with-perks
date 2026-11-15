@@ -22,8 +22,8 @@ i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100000)
 lcd = I2cLcd(i2c, 0x3E, 2, 16)
 
 MITTE = 32768
-DEADZONE = 7000
-MAX_SPEED = 45
+DEADZONE = 9000
+MAX_SPEED = 70
 current_motor1 = 0
 current_motor2 = 0
 letzte_richtung = ""
@@ -70,8 +70,6 @@ def silly_playful_sound():
 
     ton(180, 300, 22000)
 
-silly_playful_sound()
-buzzer.deinit()
 def motor1_bewegen(geschwindigkeit):
     geschwindigkeit = max(-100, min(100, geschwindigkeit))
     pwm_wert = int(abs(geschwindigkeit) * 65535 / 100)
@@ -116,14 +114,14 @@ def motoren_setzen(motor1, motor2):
     # Kleine Schritte verhindern einen abrupten Stromanstieg.
     while current_motor1 != motor1 or current_motor2 != motor2:
         if current_motor1 < motor1:
-            current_motor1 = min(current_motor1 + 5, motor1)
+            current_motor1 = min(current_motor1 + 10, motor1)
         elif current_motor1 > motor1:
-            current_motor1 = max(current_motor1 - 5, motor1)
+            current_motor1 = max(current_motor1 - 10, motor1)
 
         if current_motor2 < motor2:
-            current_motor2 = min(current_motor2 + 5, motor2)
+            current_motor2 = min(current_motor2 + 10, motor2)
         elif current_motor2 > motor2:
-            current_motor2 = max(current_motor2 - 5, motor2)
+            current_motor2 = max(current_motor2 - 10, motor2)
 
         motor1_bewegen(current_motor1)
         motor2_bewegen(current_motor2)
@@ -210,8 +208,8 @@ def lcd_animation(aktuelle_richtung):
 
 
 def richtung():
-    x_wert = joystick_x.read_u16() - MITTE
-    y_wert = joystick_y.read_u16() - MITTE
+    x_wert = sum(joystick_x.read_u16() for _ in range(4)) // 4 - MITTE
+    y_wert = sum(joystick_y.read_u16() for _ in range(4)) // 4 - MITTE
 
     # Links und rechts sind absichtlich vertauscht.
     links = x_wert > DEADZONE
