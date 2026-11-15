@@ -1,8 +1,12 @@
+
 # Duckie with Perks
 
 > **A tiny ride. A giant quack. Zero boring duckies.**
 
-**Built with:** `MicroPython` · `Maker Pi RP2040` · `Joystick` · `LCD` · `Buzzer`
+**Built with:**    
+    <img width="41" height="41" alt="MicroPython_new_logo" src="https://github.com/user-attachments/assets/50d042ce-69cf-4c97-a30e-a11d67aa7a4e" /> <img width="41" height="41" alt="images-3" src="https://github.com/user-attachments/assets/9797e68c-7792-4ce6-8c4a-cfa02d974346" /> <img width="41" height="41" alt="github-copilot" src="https://github.com/user-attachments/assets/ebc03536-5d04-4f09-bdb1-9da2d8d5fd3a" />
+
+
 
 Duckie with Perks is a remote-controlled duck-mobile with differential drive,
 personality, and just the right amount of chaos. It is controlled by an analog
